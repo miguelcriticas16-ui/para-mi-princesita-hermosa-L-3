@@ -235,7 +235,6 @@
             overflow: hidden;
         }
 
-        /* Ajuste perfecto para pantallas de celulares pequeños y grandes */
         .envelope.open .letter {
             transform: translate(-50%, -50%) scale(1);
             top: 50%;
@@ -317,22 +316,27 @@
             border-radius: 14px;
         }
 
+        /* Subtítulo llamativo colocado ARRIBA del video */
         .video-subtitle {
-            font-size: 12.5px;
+            font-size: 13.5px;
             color: #58111A;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             text-align: center;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            text-shadow: 0 1px 2px rgba(255, 182, 193, 0.8);
-            line-height: 1.35;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(255, 182, 193, 0.9);
+            line-height: 1.4;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(217, 130, 148, 0.3);
         }
 
         .video-container video {
             width: 100%;
             max-width: 100%;
             height: auto;
-            max-height: 240px;
+            max-height: 220px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(88, 17, 26, 0.25);
             border: 2px solid #e8a5b2;
@@ -448,9 +452,9 @@
 </head>
 <body>
 
-    <!-- Sin loop para que la canción suene solo una vez -->
+    <!-- Audio principal optimizado con enlace directo alternativo -->
     <audio id="bg-music">
-        <source src="https://media.vocaroo.com/mp3/1lTC1TbzJQQn" type="audio/mp3">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=romantic-cute-wedding-112191.mp3" type="audio/mp3">
         Tu navegador no soporta audio.
     </audio>
 
@@ -498,9 +502,10 @@
                         <p>Mi amorcito, te amo más de lo que estas palabras pueden expresar. Ojalá pueda ver Spiderman, pero bueno, si no se puede, pues ya fue ;v. Gracias por existir, mi amorcito, por llegar a mi vida y por hacerla mucho más bonita.</p>
                         
                         <div class="video-container">
-                            <div class="video-subtitle">✨ Eres y serás el primer pensamiento al escuchar esta canción ✨</div>
+                            <!-- Subtítulo llamativo posicionado arriba del video -->
+                            <div class="video-subtitle">💖 Eres y serás el primer pensamiento al escuchar esta canción 💖</div>
                             <video id="myVideo" controls preload="metadata" playsinline webkit-playsinline x5-playsinline>
-                                <source src="https://litter.catbox.moe/pj9msrzzfa3cdi2p.mp4" type="video/mp4">
+                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
                                 Tu navegador no soporta la reproducción de video.
                             </video>
                         </div>
@@ -641,7 +646,7 @@
                 music.play();
                 musicPlaying = true;
                 document.getElementById('music-text').innerText = "Música: Activada";
-                document.getElementById('music-icon').style.animation = "spinNote 3s linear infinite";
+                musicIcon.style.animation = "spinNote 3s linear infinite";
             }
         });
 
@@ -650,7 +655,7 @@
                 music.play();
                 musicPlaying = true;
                 document.getElementById('music-text').innerText = "Música: Activada";
-                document.getElementById('music-icon').style.animation = "spinNote 3s linear infinite";
+                musicIcon.style.animation = "spinNote 3s linear infinite";
             }
         });
 
