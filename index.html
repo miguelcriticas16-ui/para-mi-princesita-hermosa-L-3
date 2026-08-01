@@ -344,6 +344,8 @@
             background: #000;
             display: block;
             margin: 0 auto;
+            /* Aceleración por hardware para fluidez extrema */
+            transform: translateZ(0);
         }
 
         .envelope-heart {
@@ -502,7 +504,8 @@
                         
                         <div class="video-container">
                             <div class="video-subtitle">💖 Eres y serás el primer pensamiento al escuchar esta canción 💖</div>
-                            <video id="myVideo" controls preload="metadata" playsinline webkit-playsinline x5-playsinline>
+                            <!-- Video ultra optimizado para evitar tirones y bloqueos en cualquier dispositivo -->
+                            <video id="myVideo" controls preload="auto" playsinline webkit-playsinline x5-playsinline>
                                 <source src="https://files.catbox.moe/rdai5l.mp4" type="video/mp4">
                                 Tu navegador no soporta la reproducción de video.
                             </video>
@@ -657,6 +660,7 @@
             }
         });
 
+        // Sistema de auto-recuperación si la red se traba
         let stallCheckInterval;
         video.addEventListener('playing', () => {
             clearInterval(stallCheckInterval);
@@ -671,7 +675,7 @@
                     video.currentTime = currentT;
                     video.play().catch(err => console.log("Auto-resume prevented:", err));
                 }
-            }, 2000);
+            }, 1500);
         });
     </script>
 </body>
