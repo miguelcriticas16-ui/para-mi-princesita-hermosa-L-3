@@ -297,7 +297,6 @@
             background: #000;
             display: block;
             margin: 0 auto;
-            transform: translate3d(0, 0, 0);
         }
 
         .envelope-heart {
@@ -427,8 +426,8 @@
                         
                         <div class="video-container">
                             <div class="video-subtitle">💖 Eres y serás el primer pensamiento al escuchar esta canción 💖</div>
-                            <!-- PRELOAD AUTO Y BUFFER INTELIGENTE PARA EVITAR TIRONES DESPUÉS DEL MINUTO 2 -->
-                            <video id="myVideo" controls preload="auto" playsinline webkit-playsinline x5-playsinline>
+                            <!-- REPRODUCTOR ANTI-TRABAS CON RECUPERACIÓN DE BUFFER MÓVIL -->
+                            <video id="myVideo" controls preload="metadata" playsinline webkit-playsinline x5-playsinline>
                                 <source src="https://files.catbox.moe/rdai5l.mp4" type="video/mp4">
                                 Tu navegador no soporta la reproducción de video.
                             </video>
@@ -447,6 +446,30 @@
         const video = document.getElementById('myVideo');
         let musicPlaying = false;
         let userPausedMusic = false;
+
+        // SISTEMA DE RECUPERACIÓN INTELIGENTE DE BUFFER MÓVIL (EVITA CONGELAMIENTO EN MINUTO 2)
+        let lastCurrentTime = 0;
+        let stallCheckInterval = null;
+
+        video.addEventListener('playing', () => {
+            if (stallCheckInterval) clearInterval(stallCheckInterval);
+            stallCheckInterval = setInterval(() => {
+                if (video.paused || video.ended) return;
+                if (Math.abs(video.currentTime - lastCurrentTime) < 0.05) {
+                    let curr = video.currentTime;
+                    video.currentTime = curr + 0.1; // Salto imperceptible para despertar el flujo de red móvil
+                }
+                lastCurrentTime = video.currentTime;
+            }, 3000);
+        });
+
+        video.addEventListener('pause', () => {
+            if (stallCheckInterval) clearInterval(stallCheckInterval);
+        });
+
+        video.addEventListener('ended', () => {
+            if (stallCheckInterval) clearInterval(stallCheckInterval);
+        });
 
         function startLoading() {
             document.getElementById('welcome-screen').style.opacity = '0';
