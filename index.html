@@ -332,18 +332,26 @@
             border: 1px solid rgba(217, 130, 148, 0.3);
         }
 
-        .video-container video {
+        /* Contenedor responsivo para el video de YouTube */
+        .video-wrapper {
+            position: relative;
             width: 100%;
-            max-width: 100%;
-            height: auto;
-            max-height: 220px;
+            padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+            height: 0;
             border-radius: 8px;
+            overflow: hidden;
             box-shadow: 0 4px 15px rgba(88, 17, 26, 0.25);
             border: 2px solid #e8a5b2;
-            outline: none;
             background: #000;
-            display: block;
-            margin: 0 auto;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
         .envelope-heart {
@@ -452,9 +460,8 @@
 </head>
 <body>
 
-    <!-- Audio principal optimizado con enlace directo alternativo -->
     <audio id="bg-music">
-        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf756.mp3?filename=romantic-cute-wedding-112191.mp3" type="audio/mp3">
+        <source src="https://media.vocaroo.com/mp3/1lTC1TbzJQQn" type="audio/mp3">
         Tu navegador no soporta audio.
     </audio>
 
@@ -502,12 +509,10 @@
                         <p>Mi amorcito, te amo más de lo que estas palabras pueden expresar. Ojalá pueda ver Spiderman, pero bueno, si no se puede, pues ya fue ;v. Gracias por existir, mi amorcito, por llegar a mi vida y por hacerla mucho más bonita.</p>
                         
                         <div class="video-container">
-                            <!-- Subtítulo llamativo posicionado arriba del video -->
                             <div class="video-subtitle">💖 Eres y serás el primer pensamiento al escuchar esta canción 💖</div>
-                            <video id="myVideo" controls preload="metadata" playsinline webkit-playsinline x5-playsinline>
-                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-                                Tu navegador no soporta la reproducción de video.
-                            </video>
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/efQ-5ez3hkY?enablejsapi=1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
                         </div>
                         
                         <p style="text-align: center; font-weight: 500; color: #58111A; margin-top: 15px;">Te amo con todo mi amor y siempre de los siempre lo haré. ❤️</p>
@@ -520,9 +525,7 @@
 
     <script>
         const music = document.getElementById('bg-music');
-        const video = document.getElementById('myVideo');
         let musicPlaying = false;
-        let userPausedMusic = false;
 
         function startLoading() {
             document.getElementById('welcome-screen').style.opacity = '0';
@@ -594,7 +597,6 @@
                 music.volume = 0.5;
                 music.play().then(() => {
                     musicPlaying = true;
-                    userPausedMusic = false;
                     document.getElementById('music-control').style.display = 'flex';
                 }).catch(e => {
                     console.log("Audio play error:", e);
@@ -614,13 +616,11 @@
             if (musicPlaying) {
                 music.pause();
                 musicPlaying = false;
-                userPausedMusic = true;
                 musicText.innerText = "Música: Pausada";
                 musicIcon.style.animation = "none";
             } else {
                 music.play();
                 musicPlaying = true;
-                userPausedMusic = false;
                 musicText.innerText = "Música: Activada";
                 musicIcon.style.animation = "spinNote 3s linear infinite";
             }
@@ -630,50 +630,6 @@
             musicPlaying = false;
             document.getElementById('music-text').innerText = "Música: Finalizada";
             document.getElementById('music-icon').style.animation = "none";
-        });
-
-        video.addEventListener('play', () => {
-            if (musicPlaying) {
-                music.pause();
-                musicPlaying = false;
-                document.getElementById('music-text').innerText = "Música: Pausada";
-                document.getElementById('music-icon').style.animation = "none";
-            }
-        });
-
-        video.addEventListener('pause', () => {
-            if (!userPausedMusic && !musicPlaying && !music.ended) {
-                music.play();
-                musicPlaying = true;
-                document.getElementById('music-text').innerText = "Música: Activada";
-                musicIcon.style.animation = "spinNote 3s linear infinite";
-            }
-        });
-
-        video.addEventListener('ended', () => {
-            if (!userPausedMusic && !musicPlaying && !music.ended) {
-                music.play();
-                musicPlaying = true;
-                document.getElementById('music-text').innerText = "Música: Activada";
-                musicIcon.style.animation = "spinNote 3s linear infinite";
-            }
-        });
-
-        let stallCheckInterval;
-        video.addEventListener('playing', () => {
-            clearInterval(stallCheckInterval);
-        });
-
-        video.addEventListener('waiting', () => {
-            let startT = video.currentTime;
-            stallCheckInterval = setTimeout(() => {
-                if (video.currentTime === startT) {
-                    let currentT = video.currentTime;
-                    video.load();
-                    video.currentTime = currentT;
-                    video.play().catch(err => console.log("Auto-resume prevented:", err));
-                }
-            }, 2000);
         });
     </script>
 </body>
