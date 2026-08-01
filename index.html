@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mi Universo 3D - Para Mi Amorcito</title>
-    <!-- Fuentes esenciales optimizadas -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -33,7 +32,7 @@
             justify-content: center;
             align-items: center;
             z-index: 100;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
             padding: 20px;
         }
 
@@ -46,7 +45,6 @@
             text-align: center;
             max-width: 380px;
             width: 100%;
-            transform: translateZ(0);
         }
 
         .heart-icon {
@@ -92,7 +90,7 @@
             align-items: center;
             z-index: 90;
             padding: 20px;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
 
         .loading-title {
@@ -138,13 +136,12 @@
             align-items: center;
             z-index: 95;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
 
         .envelope-wrapper {
             position: relative;
             cursor: pointer;
-            transform: translateZ(0);
             z-index: 10;
         }
 
@@ -167,7 +164,7 @@
             border-right: 150px solid transparent;
             border-top: 105px solid #d994a1;
             transform-origin: top;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.4s ease-in-out;
             z-index: 4;
         }
 
@@ -198,17 +195,16 @@
             background: #fdf5e6;
             border-radius: 10px;
             z-index: 2;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 15px;
             overflow: hidden;
-            transform: translateZ(0);
         }
 
         .envelope.open .letter {
-            transform: translate(-50%, -50%) translateZ(0);
+            transform: translate(-50%, -50%);
             top: 50%;
             left: 50%;
             width: 92vw;
@@ -238,7 +234,7 @@
             color: #58111A;
             margin-bottom: 14px;
             opacity: 0;
-            transition: opacity 0.3s ease 0.5s;
+            transition: opacity 0.3s ease 0.4s;
             text-align: center;
             flex-shrink: 0;
         }
@@ -253,7 +249,7 @@
             color: #4a3538;
             line-height: 1.65;
             opacity: 0;
-            transition: opacity 0.3s ease 0.6s;
+            transition: opacity 0.3s ease 0.5s;
             text-align: left;
             padding-bottom: 25px;
         }
@@ -294,7 +290,7 @@
             width: 100%;
             max-width: 100%;
             height: auto;
-            max-height: 200px;
+            max-height: 190px;
             border-radius: 8px;
             border: 2px solid #e8a5b2;
             outline: none;
@@ -354,16 +350,10 @@
         }
 
         @keyframes fallAnimation {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
             15% { opacity: 0.8; }
             85% { opacity: 0.8; }
-            100% {
-                transform: translateY(105vh) rotate(360deg);
-                opacity: 0;
-            }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
         }
 
         #music-control {
@@ -378,16 +368,12 @@
             align-items: center;
             gap: 8px;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             cursor: pointer;
         }
         #music-control span {
             font-size: 12px;
             color: #ffb6c1;
             font-weight: 500;
-        }
-        #music-icon {
-            font-size: 14px;
         }
     </style>
 </head>
@@ -442,8 +428,8 @@
                         
                         <div class="video-container">
                             <div class="video-subtitle">💖 Eres y serás el primer pensamiento al escuchar esta canción 💖</div>
-                            <!-- PRELOAD NONE para evitar que colapse la PC/Teléfono al cargar la página -->
-                            <video id="myVideo" controls preload="none" playsinline webkit-playsinline x5-playsinline>
+                            <!-- Video embebido con carga diferida e inteligente para que no se congele -->
+                            <video id="myVideo" controls preload="metadata" playsinline webkit-playsinline x5-playsinline>
                                 <source src="https://files.catbox.moe/rdai5l.mp4" type="video/mp4">
                                 Tu navegador no soporta la reproducción de video.
                             </video>
@@ -476,16 +462,16 @@
                 const text = document.getElementById('progressText');
                 
                 const interval = setInterval(() => {
-                    progress += 4;
+                    progress += 5;
                     if (progress >= 100) {
                         progress = 100;
                         clearInterval(interval);
-                        setTimeout(showLetterScreen, 300);
+                        setTimeout(showLetterScreen, 200);
                     }
                     bar.style.width = progress + '%';
                     text.innerText = progress + '%';
-                }, 20);
-            }, 500);
+                }, 15);
+            }, 400);
         }
 
         function showLetterScreen() {
@@ -497,32 +483,25 @@
                 letterContainer.style.display = 'flex';
                 setTimeout(() => {
                     letterContainer.style.opacity = '1';
-                }, 30);
+                }, 20);
             }, 300);
         }
 
-        // Lluvia de corazones ultra aligerada
         function startHeartsRain() {
             const container = document.getElementById('hearts-rain-container');
             const heartSymbols = ['❤️', '💖', '💗'];
             
-            // Limitamos la cantidad en memoria para que no sature procesadores móviles
-            const rainInterval = setInterval(() => {
-                if (document.hidden) return; // Si la pestaña no está activa, ahorra recursos
+            setInterval(() => {
+                if (document.hidden) return;
                 const heart = document.createElement('div');
                 heart.classList.add('falling-heart');
                 heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-                
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.fontSize = (Math.random() * 8 + 12) + 'px';
-                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-                
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
                 container.appendChild(heart);
-                
-                setTimeout(() => {
-                    heart.remove();
-                }, 7000);
-            }, 600);
+                setTimeout(() => heart.remove(), 6000);
+            }, 800);
         }
 
         function openEnvelope() {
