@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mi Universo 3D - Para Mi Amorcito</title>
     <!-- Importando fuentes elegantes de Google Fonts (Great Vibes y Poppins) -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -56,9 +56,9 @@
         }
 
         .heart-icon {
-            font-size: 45px;
+            font-size: 40px;
             color: #ffb6c1;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
             animation: heartbeat 1.2s infinite;
         }
@@ -71,8 +71,8 @@
         }
 
         .card h1 {
-            font-size: clamp(20px, 5vw, 24px);
-            margin-bottom: 25px;
+            font-size: clamp(18px, 4.5vw, 22px);
+            margin-bottom: 20px;
             color: #fff0f5;
             font-weight: 500;
             line-height: 1.4;
@@ -82,8 +82,8 @@
             background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
             color: #4a2e35;
             border: none;
-            padding: 14px 28px;
-            font-size: 14px;
+            padding: 12px 24px;
+            font-size: 13px;
             font-weight: 600;
             border-radius: 30px;
             cursor: pointer;
@@ -116,14 +116,14 @@
         }
 
         .loading-title {
-            font-size: clamp(22px, 5vw, 26px);
+            font-size: clamp(20px, 4.5vw, 24px);
             font-weight: 500;
             margin-bottom: 8px;
             color: #fff0f5;
         }
 
         .progress-container {
-            width: min(280px, 80vw);
+            width: min(260px, 80vw);
             height: 6px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
@@ -141,12 +141,12 @@
         }
 
         .loading-percentage {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: #ffb6c1;
         }
 
-        /* --- Estilos del Sobre y Carta --- */
+        /* --- Estilos del Sobre y Carta Optimizados para Móvil --- */
         #letter-container {
             position: absolute;
             top: 0;
@@ -177,10 +177,10 @@
 
         .envelope {
             position: relative;
-            width: 340px;
-            height: 220px;
+            width: 300px;
+            height: 195px;
             background: #e8a5b2;
-            border-radius: 0 0 20px 20px;
+            border-radius: 0 0 16px 16px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
             transition: all 0.8s ease;
         }
@@ -191,9 +191,9 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 170px solid transparent;
-            border-right: 170px solid transparent;
-            border-top: 120px solid #d994a1;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 105px solid #d994a1;
             transform-origin: top;
             transition: transform 0.6s ease-in-out;
             z-index: 4;
@@ -210,74 +210,71 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 170px solid #f0b2be;
-            border-right: 170px solid #f0b2be;
-            border-bottom: 120px solid #e09da9;
-            border-radius: 0 0 20px 20px;
+            border-left: 150px solid #f0b2be;
+            border-right: 150px solid #f0b2be;
+            border-bottom: 105px solid #e09da9;
+            border-radius: 0 0 16px 16px;
             z-index: 3;
         }
 
         .letter {
             position: absolute;
-            bottom: 15px;
-            left: 25px;
-            width: 290px;
-            height: 180px;
+            bottom: 12px;
+            left: 20px;
+            width: 260px;
+            height: 160px;
             background: #fdf5e6;
-            border-radius: 12px;
+            border-radius: 10px;
             box-shadow: 0 0 20px rgba(0,0,0,0.2);
             z-index: 2;
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
             overflow: hidden;
         }
 
+        /* Ajuste perfecto para pantallas de celulares pequeños y grandes */
         .envelope.open .letter {
-            transform: translate(-50%, -50%) scale(2.2);
+            transform: translate(-50%, -50%) scale(1);
             top: 50%;
             left: 50%;
-            width: min(360px, 88vw);
-            height: min(460px, 80vh);
+            width: 92vw;
+            max-width: 390px;
+            height: 82vh;
+            max-height: 600px;
             z-index: 10;
-            box-shadow: 0 0 50px rgba(255, 182, 193, 0.4);
-            overflow-y: scroll;
+            box-shadow: 0 0 40px rgba(255, 182, 193, 0.4);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             align-items: stretch;
-            padding: 30px 25px;
-            background: rgba(253, 245, 230, 0.96);
+            padding: 22px 16px;
+            background: rgba(253, 245, 230, 0.98);
         }
 
         /* Barra de scroll visible y elegante */
         .envelope.open .letter::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         .envelope.open .letter::-webkit-scrollbar-track {
             background: #fae1dd;
-            border-radius: 4px;
-            margin: 15px 0;
+            border-radius: 3px;
+            margin: 10px 0;
         }
         .envelope.open .letter::-webkit-scrollbar-thumb {
             background: #d98294;
-            border-radius: 4px;
-        }
-        .envelope.open .letter::-webkit-scrollbar-thumb:hover {
-            background: #c26b7d;
-        }
-        .envelope.open .letter {
-            scrollbar-width: thin;
-            scrollbar-color: #d98294 #fae1dd;
+            border-radius: 3px;
         }
 
         .letter-title {
             font-family: 'Great Vibes', cursive;
-            font-size: 46px;
+            font-size: 38px;
             font-weight: normal;
             color: #58111A;
             letter-spacing: 1px;
-            margin-top: 5px;
-            margin-bottom: 20px;
+            margin-top: 2px;
+            margin-bottom: 14px;
             opacity: 0;
             transition: opacity 0.5s ease 0.8s;
             text-align: center;
@@ -291,13 +288,13 @@
 
         .letter-content {
             font-family: 'Poppins', sans-serif;
-            font-size: 13.5px;
+            font-size: 12.5px;
             color: #4a3538;
-            line-height: 1.8;
+            line-height: 1.65;
             opacity: 0;
             transition: opacity 0.5s ease 0.9s;
             text-align: left;
-            padding-bottom: 30px;
+            padding-bottom: 25px;
         }
 
         .envelope.open .letter-content {
@@ -305,48 +302,52 @@
         }
 
         .letter-content p {
-            margin-bottom: 18px;
+            margin-bottom: 14px;
             text-align: justify;
         }
 
         .video-container {
-            margin-top: 25px;
-            margin-bottom: 20px;
+            margin-top: 20px;
+            margin-bottom: 15px;
             width: 100%;
             text-align: center;
             background: rgba(255, 182, 193, 0.12);
             border: 2px dashed rgba(217, 130, 148, 0.4);
-            padding: 15px 12px;
-            border-radius: 16px;
+            padding: 12px 10px;
+            border-radius: 14px;
         }
 
         .video-subtitle {
-            font-size: 14px;
+            font-size: 12.5px;
             color: #58111A;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             text-align: center;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             text-shadow: 0 1px 2px rgba(255, 182, 193, 0.8);
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
         .video-container video {
             width: 100%;
             max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 6px 20px rgba(88, 17, 26, 0.25);
+            height: auto;
+            max-height: 240px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(88, 17, 26, 0.25);
             border: 2px solid #e8a5b2;
             outline: none;
             background: #000;
+            display: block;
+            margin: 0 auto;
         }
 
         .envelope-heart {
             position: absolute;
-            top: 70px;
+            top: 60px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 35px;
+            font-size: 30px;
             color: #fff;
             z-index: 5;
             text-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -359,14 +360,17 @@
 
         .instruction-text {
             position: absolute;
-            bottom: 40px;
-            font-size: 14px;
+            bottom: 35px;
+            font-size: 13px;
             color: #ffb6c1;
             letter-spacing: 1px;
             text-transform: uppercase;
             animation: pulseText 1.5s infinite;
             pointer-events: none;
             z-index: 20;
+            text-align: center;
+            width: 100%;
+            padding: 0 15px;
         }
 
         @keyframes pulseText {
@@ -413,31 +417,27 @@
 
         #music-control {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 15px;
             background: rgba(40, 25, 35, 0.85);
             border: 1px solid rgba(255, 182, 193, 0.4);
             backdrop-filter: blur(5px);
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 30px;
             display: none;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             z-index: 1000;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        #music-control:hover {
-            background: rgba(60, 35, 50, 0.95);
         }
         #music-control span {
-            font-size: 13px;
+            font-size: 12px;
             color: #ffb6c1;
             font-weight: 500;
         }
         #music-icon {
-            font-size: 16px;
+            font-size: 14px;
             animation: spinNote 3s linear infinite;
         }
         @keyframes spinNote {
@@ -493,7 +493,7 @@
                         
                         <p>Te sigo amando como la primera vez, te sigo pensando las mismas veces que la primera vez. Pasamos de solo sentarnos juntos a querer todo contigo, de amarte con locura y con todo mi corazón, y lo sigo haciendo hasta ahora.</p>
                         
-                        <p>Recuerda que eres todo para mí, que eres mi vida, mi mundo, la razón de mi felicidad y muchas veces la razón de no dejar de intentar varias cosas. Gracias por amarme tanto como yo lo hago, gracias por ser mi novia, algo que tanto quise para ser parte de tu vida y hacerte muy feliz. Espero que lo esté logrando tanto como tú lo haces.</p>
+                        <p>Recuerda que eres todo para mí, que eres mi vida, mi mundo, la razón de la felicidad y muchas veces la razón de no dejar de intentar varias cosas. Gracias por amarme tanto como yo lo hago, gracias por ser mi novia, algo que tanto quise para ser parte de tu vida y hacerte muy feliz. Espero que lo esté logrando tanto como tú lo haces.</p>
                         
                         <p>Mi amorcito, te amo más de lo que estas palabras pueden expresar. Ojalá pueda ver Spiderman, pero bueno, si no se puede, pues ya fue ;v. Gracias por existir, mi amorcito, por llegar a mi vida y por hacerla mucho más bonita.</p>
                         
@@ -505,7 +505,7 @@
                             </video>
                         </div>
                         
-                        <p style="text-align: center; font-weight: 500; color: #58111A; margin-top: 20px;">Te amo con todo mi amor y siempre de los siempre lo haré. ❤️</p>
+                        <p style="text-align: center; font-weight: 500; color: #58111A; margin-top: 15px;">Te amo con todo mi amor y siempre de los siempre lo haré. ❤️</p>
                     </div>
                 </div>
             </div>
@@ -568,7 +568,7 @@
                 heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
                 
                 heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.fontSize = (Math.random() * 12 + 12) + 'px';
+                heart.style.fontSize = (Math.random() * 10 + 10) + 'px';
                 heart.style.animationDuration = (Math.random() * 4 + 5) + 's';
                 heart.style.opacity = Math.random() * 0.4 + 0.5;
                 
@@ -577,7 +577,7 @@
                 setTimeout(() => {
                     heart.remove();
                 }, 10000);
-            }, 250);
+            }, 300);
         }
 
         function openEnvelope() {
