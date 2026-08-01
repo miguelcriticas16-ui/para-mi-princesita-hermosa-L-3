@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Universo 3D - Para Mi Amorcito</title>
+    <!-- Importando fuentes elegantes de Google Fonts (Great Vibes y Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #030305;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            perspective: 1000px;
+        }
+
+        #welcome-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(20, 15, 20, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1s ease;
+            padding: 20px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(40, 25, 35, 0.95), rgba(20, 15, 25, 0.98));
+            border: 2px solid rgba(255, 182, 193, 0.4);
+            box-shadow: 0 0 40px rgba(255, 182, 193, 0.2), inset 0 0 20px rgba(255, 182, 193, 0.1);
+            padding: 30px 20px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+            animation: cardFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .heart-icon {
+            font-size: 45px;
+            color: #ffb6c1;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 182, 193, 0.6);
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.25); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+        }
+
+        .card h1 {
+            font-size: clamp(20px, 5vw, 24px);
+            margin-bottom: 25px;
+            color: #fff0f5;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .btn-click {
+            background: linear-gradient(135deg, #ffb6c1, #ffc0cb);
+            color: #4a2e35;
+            border: none;
+            padding: 14px 28px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.4);
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        .btn-click:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.6);
+        }
+
+        #loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #030305;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 90;
+            padding: 20px;
+            transition: opacity 1s ease;
+        }
+
+        .loading-title {
+            font-size: clamp(22px, 5vw, 26px);
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #fff0f5;
+        }
+
+        .progress-container {
+            width: min(280px, 80vw);
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ffb6c1, #ffe4e1);
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        .loading-percentage {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffb6c1;
+        }
+
+        /* --- Estilos del Sobre y Carta --- */
+        #letter-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #030305;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 95;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            animation: envelopeFloat 3s ease-in-out infinite;
+            transition: transform 0.8s ease;
+            z-index: 10;
+        }
+
+        @keyframes envelopeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .envelope {
+            position: relative;
+            width: 340px;
+            height: 220px;
+            background: #e8a5b2;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            transition: all 0.8s ease;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-top: 120px solid #d994a1;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+            z-index: 4;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 170px solid #f0b2be;
+            border-right: 170px solid #f0b2be;
+            border-bottom: 120px solid #e09da9;
+            border-radius: 0 0 20px 20px;
+            z-index: 3;
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 15px;
+            left: 25px;
+            width: 290px;
+            height: 180px;
+            background: #fdf5e6;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 2;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .envelope.open .letter {
+            transform: translate(-50%, -50%) scale(2.2);
+            top: 50%;
+            left: 50%;
+            width: min(360px, 88vw);
+            height: min(460px, 80vh);
+            z-index: 10;
+            box-shadow: 0 0 50px rgba(255, 182, 193, 0.4);
+            overflow-y: scroll;
+            align-items: stretch;
+            padding: 30px 25px;
+            background: rgba(253, 245, 230, 0.96);
+        }
+
+        /* Barra de scroll visible y elegante */
+        .envelope.open .letter::-webkit-scrollbar {
+            width: 8px;
+        }
+        .envelope.open .letter::-webkit-scrollbar-track {
+            background: #fae1dd;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        .envelope.open .letter::-webkit-scrollbar-thumb {
+            background: #d98294;
+            border-radius: 4px;
+        }
+        .envelope.open .letter::-webkit-scrollbar-thumb:hover {
+            background: #c26b7d;
+        }
+        .envelope.open .letter {
+            scrollbar-width: thin;
+            scrollbar-color: #d98294 #fae1dd;
+        }
+
+        .letter-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 46px;
+            font-weight: normal;
+            color: #58111A;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.8s;
+            text-align: center;
+            text-shadow: 1px 1px 1px rgba(88, 17, 26, 0.2);
+            flex-shrink: 0;
+        }
+
+        .envelope.open .letter-title {
+            opacity: 1;
+        }
+
+        .letter-content {
+            font-family: 'Poppins', sans-serif;
+            font-size: 13.5px;
+            color: #4a3538;
+            line-height: 1.8;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.9s;
+            text-align: left;
+            padding-bottom: 30px;
+        }
+
+        .envelope.open .letter-content {
+            opacity: 1;
+        }
+
+        .letter-content p {
+            margin-bottom: 18px;
+            text-align: justify;
+        }
+
+        .video-container {
+            margin-top: 25px;
+            margin-bottom: 20px;
+            width: 100%;
+            text-align: center;
+            background: rgba(255, 182, 193, 0.12);
+            border: 2px dashed rgba(217, 130, 148, 0.4);
+            padding: 15px 12px;
+            border-radius: 16px;
+        }
+
+        .video-subtitle {
+            font-size: 14px;
+            color: #58111A;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(255, 182, 193, 0.8);
+            line-height: 1.4;
+        }
+
+        .video-container video {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(88, 17, 26, 0.25);
+            border: 2px solid #e8a5b2;
+            outline: none;
+            background: #000;
+        }
+
+        .envelope-heart {
+            position: absolute;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 35px;
+            color: #fff;
+            z-index: 5;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: opacity 0.3s ease;
+        }
+
+        .envelope.open .envelope-heart {
+            opacity: 0;
+        }
+
+        .instruction-text {
+            position: absolute;
+            bottom: 40px;
+            font-size: 14px;
+            color: #ffb6c1;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: pulseText 1.5s infinite;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        #hearts-rain-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 30;
+        }
+
+        .falling-heart {
+            position: absolute;
+            top: -20px;
+            color: #ffb6c1;
+            user-select: none;
+            animation: fallAnimation linear infinite;
+            text-shadow: 0 0 8px rgba(255, 182, 193, 0.6);
+        }
+
+        @keyframes fallAnimation {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.85;
+            }
+            85% {
+                opacity: 0.85;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        #music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(40, 25, 35, 0.85);
+            border: 1px solid rgba(255, 182, 193, 0.4);
+            backdrop-filter: blur(5px);
+            padding: 8px 15px;
+            border-radius: 30px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #music-control:hover {
+            background: rgba(60, 35, 50, 0.95);
+        }
+        #music-control span {
+            font-size: 13px;
+            color: #ffb6c1;
+            font-weight: 500;
+        }
+        #music-icon {
+            font-size: 16px;
+            animation: spinNote 3s linear infinite;
+        }
+        @keyframes spinNote {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sin loop para que la canción suene solo una vez -->
+    <audio id="bg-music">
+        <source src="https://media.vocaroo.com/mp3/1lTC1TbzJQQn" type="audio/mp3">
+        Tu navegador no soporta audio.
+    </audio>
+
+    <div id="music-control" onclick="toggleMusic()">
+        <div id="music-icon">🎵</div>
+        <span id="music-text">Música: Activada</span>
+    </div>
+
+    <div id="welcome-screen">
+        <div class="card">
+            <div class="heart-icon">❤️</div>
+            <h1>Feliz día de la novia<br>mi amorcito</h1>
+            <button class="btn-click" onclick="startLoading()">CLICK AQUÍ MI AMOR</button>
+        </div>
+    </div>
+
+    <div id="loading-screen">
+        <div class="heart-icon">❤️</div>
+        <div class="loading-title">Preparando todo...</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="loading-percentage" id="progressText">0%</div>
+    </div>
+
+    <div id="letter-container">
+        <div id="hearts-rain-container"></div>
+
+        <div class="envelope-wrapper" id="envelopeWrapper" onclick="openEnvelope()">
+            <div class="envelope" id="envelopeElement">
+                <div class="envelope-flap"></div>
+                <div class="envelope-pocket"></div>
+                <div class="envelope-heart">❤️</div>
+                <div class="letter">
+                    <div class="letter-title">Mi Princesita Hermosa</div>
+                    <div class="letter-content">
+                        <p>Mi amorcito, quería aprovechar este día para recordarte lo mucho que significas para mí, y cómo, cuando menos lo esperaba, apareciste en mi vida para hacer mis días más bonitos y por hacerme sentir amado.</p>
+                        
+                        <p>Sabes que te amo mucho, mi amor, te amo demasiado. Desde que te conocí mejor, solo pensaba en cómo poder ser tu novio, en cómo decirte que te amo y que no puedo parar de pensar en ti. Había veces que soñaba que éramos novios y que éramos felices, pero cuando despertaba revisaba si todo era verdad y nada de eso había pasado; ni siquiera hablabamos. Pero qué bueno que las cosas se dieron, que estamos juntos, por fin juntos desde hace casi 10 meses. No es mucho, pero cada día es especial si te tengo a mi lado.</p>
+                        
+                        <p>Te sigo amando como la primera vez, te sigo pensando las mismas veces que la primera vez. Pasamos de solo sentarnos juntos a querer todo contigo, de amarte con locura y con todo mi corazón, y lo sigo haciendo hasta ahora.</p>
+                        
+                        <p>Recuerda que eres todo para mí, que eres mi vida, mi mundo, la razón de mi felicidad y muchas veces la razón de no dejar de intentar varias cosas. Gracias por amarme tanto como yo lo hago, gracias por ser mi novia, algo que tanto quise para ser parte de tu vida y hacerte muy feliz. Espero que lo esté logrando tanto como tú lo haces.</p>
+                        
+                        <p>Mi amorcito, te amo más de lo que estas palabras pueden expresar. Ojalá pueda ver Spiderman, pero bueno, si no se puede, pues ya fue ;v. Gracias por existir, mi amorcito, por llegar a mi vida y por hacerla mucho más bonita.</p>
+                        
+                        <div class="video-container">
+                            <div class="video-subtitle">✨ Eres y serás el primer pensamiento al escuchar esta canción ✨</div>
+                            <video id="myVideo" controls preload="metadata" playsinline webkit-playsinline x5-playsinline>
+                                <source src="https://litter.catbox.moe/pj9msrzzfa3cdi2p.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de video.
+                            </video>
+                        </div>
+                        
+                        <p style="text-align: center; font-weight: 500; color: #58111A; margin-top: 20px;">Te amo con todo mi amor y siempre de los siempre lo haré. ❤️</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="instruction-text" id="instructionText">Toca el sobre para abrirlo</div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bg-music');
+        const video = document.getElementById('myVideo');
+        let musicPlaying = false;
+        let userPausedMusic = false;
+
+        function startLoading() {
+            document.getElementById('welcome-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('welcome-screen').style.display = 'none';
+                const loadingScreen = document.getElementById('loading-screen');
+                loadingScreen.style.display = 'flex';
+                loadingScreen.style.opacity = '1';
+                
+                let progress = 0;
+                const bar = document.getElementById('progressBar');
+                const text = document.getElementById('progressText');
+                
+                const interval = setInterval(() => {
+                    progress += Math.floor(Math.random() * 4) + 2;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        setTimeout(showLetterScreen, 500);
+                    }
+                    bar.style.width = progress + '%';
+                    text.innerText = progress + '%';
+                }, 35);
+            }, 500);
+        }
+
+        function showLetterScreen() {
+            const loadingScreen = document.getElementById('loading-screen');
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                
+                const letterContainer = document.getElementById('letter-container');
+                letterContainer.style.display = 'flex';
+                setTimeout(() => {
+                    letterContainer.style.opacity = '1';
+                }, 50);
+            }, 500);
+        }
+
+        function startHeartsRain() {
+            const container = document.getElementById('hearts-rain-container');
+            const heartSymbols = ['❤️', '💖', '💗', '💓', '💕'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('falling-heart');
+                heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 12 + 12) + 'px';
+                heart.style.animationDuration = (Math.random() * 4 + 5) + 's';
+                heart.style.opacity = Math.random() * 0.4 + 0.5;
+                
+                container.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 10000);
+            }, 250);
+        }
+
+        function openEnvelope() {
+            const envelope = document.getElementById('envelopeElement');
+            const wrapper = document.getElementById('envelopeWrapper');
+            const instruction = document.getElementById('instructionText');
+            
+            if (!envelope.classList.contains('open')) {
+                music.volume = 0.5;
+                music.play().then(() => {
+                    musicPlaying = true;
+                    userPausedMusic = false;
+                    document.getElementById('music-control').style.display = 'flex';
+                }).catch(e => {
+                    console.log("Audio play error:", e);
+                });
+
+                startHeartsRain();
+
+                envelope.classList.add('open');
+                wrapper.style.animation = 'none';
+                instruction.style.opacity = '0';
+            }
+        }
+
+        function toggleMusic() {
+            const musicText = document.getElementById('music-text');
+            const musicIcon = document.getElementById('music-icon');
+            if (musicPlaying) {
+                music.pause();
+                musicPlaying = false;
+                userPausedMusic = true;
+                musicText.innerText = "Música: Pausada";
+                musicIcon.style.animation = "none";
+            } else {
+                music.play();
+                musicPlaying = true;
+                userPausedMusic = false;
+                musicText.innerText = "Música: Activada";
+                musicIcon.style.animation = "spinNote 3s linear infinite";
+            }
+        }
+
+        music.addEventListener('ended', () => {
+            musicPlaying = false;
+            document.getElementById('music-text').innerText = "Música: Finalizada";
+            document.getElementById('music-icon').style.animation = "none";
+        });
+
+        video.addEventListener('play', () => {
+            if (musicPlaying) {
+                music.pause();
+                musicPlaying = false;
+                document.getElementById('music-text').innerText = "Música: Pausada";
+                document.getElementById('music-icon').style.animation = "none";
+            }
+        });
+
+        video.addEventListener('pause', () => {
+            if (!userPausedMusic && !musicPlaying && !music.ended) {
+                music.play();
+                musicPlaying = true;
+                document.getElementById('music-text').innerText = "Música: Activada";
+                document.getElementById('music-icon').style.animation = "spinNote 3s linear infinite";
+            }
+        });
+
+        video.addEventListener('ended', () => {
+            if (!userPausedMusic && !musicPlaying && !music.ended) {
+                music.play();
+                musicPlaying = true;
+                document.getElementById('music-text').innerText = "Música: Activada";
+                document.getElementById('music-icon').style.animation = "spinNote 3s linear infinite";
+            }
+        });
+
+        let stallCheckInterval;
+        video.addEventListener('playing', () => {
+            clearInterval(stallCheckInterval);
+        });
+
+        video.addEventListener('waiting', () => {
+            let startT = video.currentTime;
+            stallCheckInterval = setTimeout(() => {
+                if (video.currentTime === startT) {
+                    let currentT = video.currentTime;
+                    video.load();
+                    video.currentTime = currentT;
+                    video.play().catch(err => console.log("Auto-resume prevented:", err));
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
