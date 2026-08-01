@@ -286,7 +286,6 @@
             border: 1px solid rgba(217, 130, 148, 0.3);
         }
 
-        /* REPRODUCTOR FLUIDO SIN TIRONES PERO VISIBLE */
         .video-container video {
             width: 100%;
             max-width: 100%;
@@ -299,7 +298,6 @@
             display: block;
             margin: 0 auto;
             transform: translate3d(0, 0, 0);
-            will-change: transform;
         }
 
         .envelope-heart {
@@ -429,8 +427,8 @@
                         
                         <div class="video-container">
                             <div class="video-subtitle">💖 Eres y serás el primer pensamiento al escuchar esta canción 💖</div>
-                            <!-- PRELOAD METADATA PARA QUE CARGUE VISIBLE Y FLUIDO EN CELULAR -->
-                            <video id="myVideo" controls preload="metadata" playsinline webkit-playsinline x5-playsinline>
+                            <!-- PRELOAD AUTO Y BUFFER INTELIGENTE PARA EVITAR TIRONES DESPUÉS DEL MINUTO 2 -->
+                            <video id="myVideo" controls preload="auto" playsinline webkit-playsinline x5-playsinline>
                                 <source src="https://files.catbox.moe/rdai5l.mp4" type="video/mp4">
                                 Tu navegador no soporta la reproducción de video.
                             </video>
